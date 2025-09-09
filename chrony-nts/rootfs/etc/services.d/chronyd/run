@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bashio
+set -Eeuo pipefail
+
+CONF="/etc/chrony/chrony.conf"
+FLAGS="-q -f ${CONF}"
+
+# If user disables touching host clock, add -x
+if bashio::config.false 'set_system_clock'; then
+  FLAGS="${FLAGS} -x"
+  bashio::log.info "Starting chronyd with -x (won't step/steer host clock)."
+fi
+
+exec chronyd ${FLAGS}
