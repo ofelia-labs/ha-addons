@@ -30,7 +30,7 @@ extra_config: ""
 
 
 ## Verify
-- Add-on **Logs** should **not** show: `s6-overlay-suexec: fatal: can only run as pid 1``.
+- Add-on **Logs** should **not** show: `s6-overlay-suexec: fatal: can only run as pid 1`.
 - Inside the container, run this and you should see NTS sources (non-zero *KeyID*).:
   ```bash
   chronyc -N sources
