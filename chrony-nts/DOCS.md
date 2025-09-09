@@ -32,7 +32,7 @@ extra_config: ""
 ## Verify
 - Add-on **Logs** should **not** show: `s6-overlay-suexec: fatal: can only run as pid 1``.
 - Inside the container:
-  ``bash
+  ```bash
   chronyc -N sources
   chronyc -N authdata
   ```
