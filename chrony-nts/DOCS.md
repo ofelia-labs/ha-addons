@@ -6,11 +6,12 @@ Secure NTP for your LAN with optional **Network Time Security (NTS)** upstream a
 - Home Assistant OS / Supervised
 - Outbound: UDP/123 and TCP/4460 (NTS-KE)
 - Inbound: UDP/123 from your LAN (controlled by `allow`)
+- `SYS_TIME` capability is required when `set_system_clock: true` (add-on requests it)
 
 
 ## Options (defaults shown)
 ```
-lode: server
+mode: server
 ntp_pool: pool.ntp.org
 ntp_server:
   - time.cloudflare.com
@@ -27,6 +28,7 @@ extra_config: ""
 - **allow**: space/comma-separated subnets permitted to query this NTP server.
 - **use_nts**: appends `nts` to sources; only NTS-capable servers will sync.
 - **local_fallback**: adds `local stratum 10` ; use only if you **accept** serving time without upstream.
+- **set_system_clock**: steer host clock (needs `SYS_TIME` capability); set `false` for serve-only mode.
 
 
 ## Verify
@@ -41,13 +43,13 @@ extra_config: ""
 
 - **authdata** shows zeros / NTS not active
   - Confirm `use_nts: true`.
-  - Ensure outbound **DCP/4460**
+  - Ensure outbound **TCP/4460**
   - Try an explicit NTS provider (e.g., `time.cloudflare.com`).
   - Check the add-on logs for TLS or DNS errors.
 
 - **clients aren’t syncing**
   - Make sure `allow` includes your subnets.
-  - Point clients (or your router/DHPC option 42) to the HA IP as NTP server.
+  - Point clients (or your router/DHCP option 42) to the HA IP as NTP server.
   - Verify nothing else on your network is blocking inbound UDP/123 to HA.
 
 - **IPv6 literals**
@@ -55,11 +57,11 @@ extra_config: ""
 
 ## Security notes
 - NTS protects **upstream** time with TLS-established cookies; your LAN still uses classic NTP (widely supported). 
-- `local_fallback` us ** off** by default to avoid serving possibly-wrong time if cut off from upstream.
+- `local_fallback` is **off** by default to avoid serving possibly-wrong time if cut off from upstream.
 - Keep `allow` scoped to your LAN subnets unless you explicitly want to serve broader networks.
 
 ## Updating
-- Update via the Add-on Store UI as exual.
+- Update via the Add-on Store UI as usual.
 - After updates, give chronyd ~30 seconds to re-handshake NTS and reselect sources.
 
 ## Credits & license
