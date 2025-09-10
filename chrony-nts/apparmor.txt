@@ -8,13 +8,18 @@ profile chrony-nts flags=(attach_disconnected,mediate_deleted) {
 
   network udp,
 
-  /etc/chrony/** r,
+  /init rix,
+  /command/** ix,
+  /usr/bin/** ix,
+  /usr/sbin/** ix,
+  /bin/busybox ix,
+  /sbin/** ix,
+
+  /etc/chrony/** rwk,
   /etc/ssl/** r,
   /data/chrony/** rwk,
-
-  /usr/sbin/chronyd ix,
-  /usr/bin/chronyc ix,
-  /bin/busybox ix,
+  /run/** rw,
+  /tmp/** rw,
 
   deny /** w,
 }
