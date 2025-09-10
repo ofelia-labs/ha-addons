@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 CONF="/etc/chrony/chrony.conf"
-FLAGS="-q -f ${CONF}"
+FLAGS="-d -f ${CONF}"
 
 # If user disables touching host clock, add -x
 if bashio::config.false 'set_system_clock'; then
