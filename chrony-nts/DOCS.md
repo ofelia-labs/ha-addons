@@ -38,7 +38,7 @@ Used when the machine has no reliable real-time clock:
 * `persistent_only` – only use the saved epoch.
 * `initstepslew` – skip persistent time; rely solely on `initstepslew`.
 * `oneshot` – before daemonizing, run `chronyd -q "server 0.pool.ntp.org iburst"`
-  if the year is < 2024.
+  if the year is < 2025.
 * `none` – no special handling.
 
 Time is periodically written to `/data/chrony/last-epoch` and restored on the

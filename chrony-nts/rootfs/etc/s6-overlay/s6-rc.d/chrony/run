@@ -17,7 +17,7 @@ if bashio::config.false 'set_system_clock'; then
 fi
 
 if [[ "$BOOTSTRAP" == "oneshot" ]] && bashio::config.true 'set_system_clock'; then
-  if [[ $(date +%Y) -lt 2024 ]]; then
+  if [[ $(date +%Y) -lt 2025 ]]; then
     bashio::log.info "Running one-shot time sync"
     chronyd -q "server 0.pool.ntp.org iburst" -t 12 || \
       bashio::log.warning "One-shot time sync failed"

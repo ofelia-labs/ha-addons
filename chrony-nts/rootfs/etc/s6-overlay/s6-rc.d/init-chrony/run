@@ -101,7 +101,7 @@ chown chrony:chrony "$CONF"
 # Persistent time recovery
 if [[ "$SET_CLOCK" == "true" ]]; then
   if [[ "$STRATEGY" == "persistent_then_initstepslew" || "$STRATEGY" == "persistent_only" ]]; then
-    if [[ -f "$LAST_EPOCH" && $(date +%Y) -lt 2024 ]]; then
+    if [[ -f "$LAST_EPOCH" && $(date +%Y) -lt 2025 ]]; then
       saved=$(cat "$LAST_EPOCH")
       now=$(date +%s)
       if [[ $saved -gt $now ]]; then

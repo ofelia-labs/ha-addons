@@ -52,7 +52,7 @@ clock is available:
 * `persistent_only` – use only the saved time.
 * `initstepslew` – skip persistent time and use `initstepslew`.
 * `oneshot` – run `chronyd -q` against the public pool before daemonizing
-  (only if the year is < 2024).
+  (only if the year is < 2025).
 * `none` – do nothing special; NTS may fail until the clock is close.
 
 Additional chrony directives can be appended via `extra_config`.
