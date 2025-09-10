@@ -14,5 +14,6 @@ RUN apk add --no-cache chrony ca-certificates \
 # Bring in s6 services and init scripts
 COPY rootfs/ /
 
-# s6-overlay MUST be PID 1 in HA
-CMD ["/init"]
+# The Home Assistant base image already defines /init as the entrypoint
+# for s6-overlay. Adding a CMD here would attempt to run /init again and
+# cause "s6-overlay-suexec: fatal: can only run as pid 1" at runtime.
