@@ -4,7 +4,7 @@ slug: "chrony-nts"
 description: >-
   Chrony with Network Time Security upstreams. Acts as a secure client or a
   gateway that serves plain NTP to your LAN.
-version: "2.0.0-beta.5"
+version: "1.0.0-beta.5"
 arch:
   - aarch64
   - amd64
