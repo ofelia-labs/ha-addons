@@ -1,0 +1,23 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ============================================================================== 
+# Home Assistant Add-on: Chrony NTP Server (with NTS)
+# Runs chronyd daemon
+# ==============================================================================
+declare -a options
+
+bashio::log.info "Starting chronyd..."
+
+# Run in foreground mode
+options+=(-d)
+
+# Add config file
+options+=(-f /etc/chrony/chrony.conf)
+
+# Check if we should avoid setting system clock
+if bashio::config.false 'set_system_clock'; then
+    options+=(-x)
+    bashio::log.info "Running chronyd with -x (won't step/steer host clock)"
+fi
+
+exec chronyd "${options[@]}"
