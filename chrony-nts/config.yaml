@@ -1,10 +1,10 @@
 ---
-name: "Chrony NTP Server (with NTS client)"
+name: "Chrony Secure Time"
 slug: "chrony-nts"
 description: >-
-  Secure NTP server for your LAN; optionally authenticates upstream time
-  with NTS.
-version: "1.0.0-beta.4"
+  Chrony with Network Time Security upstreams. Acts as a secure client or a
+  gateway that serves plain NTP to your LAN.
+version: "2.0.0"
 arch:
   - aarch64
   - amd64
@@ -16,35 +16,29 @@ boot: auto
 host_network: true
 privileged:
   - SYS_TIME
-apparmor: false
+apparmor: true
 init: false
 
 options:
-  # "server" uses ntp_server; "pool" uses ntp_pool
-  mode: server
-  ntp_pool: pool.ntp.org
-  ntp_server:
-    - time.cloudflare.com              # Examples (NTS-capable)
+  mode: secure_client
+  nts_upstreams:
+    - time.cloudflare.com
     - nts.time.nl
     - nts.netnod.se
-  # comma or space separated; safe LAN defaults
-  allow: "192.168.0.0/16,10.0.0.0/8,fd00::/8"
-  # false => serve-only; don't steer host clock
   set_system_clock: true
-  # enable NTS client upstream (set false for plain NTP)
-  use_nts: true
-  # enables 'local stratum 10' only if you opt in
-  local_fallback: false
-  # appended verbatim to chrony.conf (advanced)
+  allow_ipv4: []
+  allow_ipv6: []
+  bootstrap_strategy: persistent_then_initstepslew
   extra_config: ""
 
 schema:
-  mode: list(server|pool)
-  ntp_pool: str?
-  ntp_server:
+  mode: list(secure_client|secure_gateway)
+  nts_upstreams:
     - str
-  allow: str
   set_system_clock: bool
-  use_nts: bool
-  local_fallback: bool
+  allow_ipv4:
+    - str
+  allow_ipv6:
+    - str
+  bootstrap_strategy: list(persistent_then_initstepslew|persistent_only|initstepslew|oneshot|none)  # yamllint disable-line rule:line-length
   extra_config: str?

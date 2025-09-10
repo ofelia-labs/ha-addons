@@ -8,8 +8,8 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 # Install chrony (with NTS support in Alpine) and CA roots
 RUN apk add --no-cache chrony ca-certificates \
   && update-ca-certificates \
-  && mkdir -p /data/chrony \
-  && chmod 0700 /data/chrony
+  && mkdir -p /data/chrony/nts \
+  && chmod 0700 /data/chrony /data/chrony/nts
 
 # Bring in s6 services and init scripts
 COPY rootfs/ /

@@ -1,23 +1,29 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
-# ============================================================================== 
-# Home Assistant Add-on: Chrony NTP Server (with NTS)
-# Runs chronyd daemon
 # ==============================================================================
+# Home Assistant Add-on: Chrony Secure Time
+# Start the chronyd daemon
+# ==============================================================================
+
+set -Eeuo pipefail
+
 declare -a options
-
-bashio::log.info "Starting chronyd..."
-
-# Run in foreground mode
-options+=(-d)
-
-# Add config file
 options+=(-f /etc/chrony/chrony.conf)
 
-# Check if we should avoid setting system clock
+BOOTSTRAP="$(bashio::config 'bootstrap_strategy')"
+
 if bashio::config.false 'set_system_clock'; then
-    options+=(-x)
-    bashio::log.info "Running chronyd with -x (won't step/steer host clock)"
+  options+=(-x)
 fi
 
+if [[ "$BOOTSTRAP" == "oneshot" ]] && bashio::config.true 'set_system_clock'; then
+  if [[ $(date +%Y) -lt 2024 ]]; then
+    bashio::log.info "Running one-shot time sync"
+    chronyd -q "server 0.pool.ntp.org iburst" -t 12 || \
+      bashio::log.warning "One-shot time sync failed"
+  fi
+fi
+
+bashio::log.info "Starting chronyd"
 exec chronyd "${options[@]}"
+
