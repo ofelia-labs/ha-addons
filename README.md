@@ -7,6 +7,6 @@ This repository hosts Home Assistant add-ons by Ofelia Labs.
    https://github.com/ofelia-labs/ha-addons
    ```
 ## Add-ons
-- `chrony-nts` — Chrony NTP server for your LAN with **NTS client** support (RFC 8915).
+- `chrony-nts` — Chrony with NTS upstreams; run as a secure client or gateway.
 
 > **Pre-release**: These add-ons are in beta. See each add-on’s DOCS for details.

@@ -1,0 +1,26 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Add-on: Chrony Secure Time
+# Persist last known good time to disk
+# ==============================================================================
+
+set -Eeuo pipefail
+
+readonly LAST_EPOCH="/data/chrony/last-epoch"
+
+save_time() {
+  date +%s > "${LAST_EPOCH}.tmp"
+  chown chrony:chrony "${LAST_EPOCH}.tmp"
+  chmod 0644 "${LAST_EPOCH}.tmp"
+  mv "${LAST_EPOCH}.tmp" "${LAST_EPOCH}"
+}
+
+trap save_time EXIT
+
+while true; do
+  save_time
+  sleep 900 &
+  wait $!
+done
+

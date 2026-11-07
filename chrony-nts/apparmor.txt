@@ -1,0 +1,35 @@
+#include <tunables/global>
+
+profile chrony-nts flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_bind_service,
+  capability sys_time,
+  capability sys_nice,
+
+  network tcp,
+  network udp,
+
+  /init rix,
+  /s6-overlay-suexec ix,
+  /command/** ix,
+  /usr/bin/** ix,
+  /usr/sbin/** ix,
+  /bin/busybox ix,
+  /sbin/** ix,
+
+  /etc/chrony/** rwk,
+  /etc/localtime r,
+  /etc/ssl/** r,
+  /usr/share/zoneinfo/** r,
+  /data/chrony/** rwk,
+  /run/** rw,
+  /tmp/** rw,
+  /dev/null rw,
+  /dev/urandom r,
+  /dev/tty r,
+
+  deny /** w,
+}
+
